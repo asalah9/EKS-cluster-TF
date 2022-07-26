@@ -37,10 +37,15 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
 
 resource "aws_eks_node_group" "worker-node-group" {
   cluster_name    = aws_eks_cluster.devopsthehardway-eks.name
-  node_group_name = "devopsthehardway-workernodes"
+  version         = "1.20"
+  node_group_name = "WorkerNodeGroup"
   node_role_arn   = aws_iam_role.workernodes.arn
-  subnet_ids      = module.vpc.private_subnets[*]
-  instance_types  = ["t3.xlarge"]
+  subnet_ids      = module.vpc.public_subnets
+  #security_group_ids = module.security-group-Bastion.id
+  instance_types = ["t2.medium"]
+  tags = {
+    "Node name" = "eks-nodeGroup-EC2"
+  }
 
   scaling_config {
     desired_size = 1

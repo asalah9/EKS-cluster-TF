@@ -8,7 +8,7 @@ module "security-group-Bastion" {
   vpc_id      = module.vpc.vpc_id
   # Ingress Rules & CIDR Blocks
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["ssh-tcp"]
+  ingress_rules       = ["ssh-tcp", "https-443-tcp"]
   # Egress Rule - all-all open bydefault
 
   egress_rules = ["all-all"]

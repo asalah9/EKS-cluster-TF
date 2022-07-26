@@ -21,11 +21,12 @@ EOF
 }
 
 resource "aws_eks_cluster" "devopsthehardway-eks" {
-  name     = "devopsthehardway-cluster"
+  name     = "EKS-cluster"
   role_arn = aws_iam_role.eks-iam-role.arn
-
+  version  = "1.20"
   vpc_config {
-    subnet_ids = module.vpc.public_subnets
+    subnet_ids         = module.vpc.public_subnets
+    security_group_ids = [ module.security-group-Bastion.this_security_group_id ]
   }
 
   depends_on = [
@@ -43,5 +44,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly-EK
 }
 
 
-
+output "endpoint" {
+  value = aws_eks_cluster.devopsthehardway-eks.endpoint
+}
 
